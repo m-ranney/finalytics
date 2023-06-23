@@ -10,15 +10,21 @@ load_dotenv()
 openai_api_key = os.getenv("OPENAI_API_KEY")
 
 def chat_with_csv(df,prompt):
-    llm = OpenAI(api_token=openai_api_key)
-    pandas_ai = PandasAI(llm)
-    
-    # Construct the prompt with additional information
-    full_prompt = f"You are a personal banking assistant. You have been provided with a banking statement for a middle class family of four with the following columns: Store Name, Date of purchase/expense, Amount of purchase/expense, Category of purchase/expense (ie. mortagage, utility bill, restaurant, etc.), Remaining balance of the bank account. The owner of the bank account is asking: {prompt}, please provide them with as accurate and concise information as possible."
+    try:
+        llm = OpenAI(api_token=openai_api_key)
+        pandas_ai = PandasAI(llm)
+        
+        # Construct the prompt with additional information
+        full_prompt = f"You are a personal banking assistant. You have been provided with a banking statement for a middle class family of four with the following columns: Store Name, Date of purchase/expense, Amount of purchase/expense, Category of purchase/expense (ie. mortagage, utility bill, restaurant, etc.), Remaining balance of the bank account. The owner of the bank account is asking: {prompt}, please provide them with as accurate and concise information as possible."
 
-    result = pandas_ai.run(df, full_prompt)
-    print(result)
-    return result
+        st.write(f"Executing pandas_ai.run with the prompt: {full_prompt}")  # Debugging line
+        result = pandas_ai.run(df, full_prompt)
+        st.write("Completed pandas_ai.run")  # Debugging line
+        print(result)
+        return result
+    except Exception as e:
+        st.write(f"Exception occurred: {e}")
+        return None
 
 st.set_page_config(layout='wide')
 
@@ -45,4 +51,7 @@ if input_csv is not None:
                 if st.button("Chat with CSV"):
                     st.info("Your Query: "+input_text)
                     result = chat_with_csv(data, input_text)
-                    st.success(result)
+                    if result is not None:
+                        st.success(result)
+                    else:
+                        st.error("There was a problem generating a response")
