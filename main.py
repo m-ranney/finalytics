@@ -42,6 +42,3 @@ if input_csv is not None:
                     st.info("Your Query: "+input_text)
                     result = chat_with_csv(data, input_text)
                     st.success(result)
-
-if __name__ == "__main__":
-    main()
