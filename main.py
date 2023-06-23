@@ -17,9 +17,7 @@ def chat_with_csv(df,prompt):
         # Construct the prompt with additional information
         full_prompt = f"You are a personal banking assistant. You have been provided with a banking statement for a middle class family of four with the following columns: Store Name, Date of purchase/expense, Amount of purchase/expense, Category of purchase/expense (ie. mortagage, utility bill, restaurant, etc.), Remaining balance of the bank account. The owner of the bank account is asking: {prompt}, please provide them with as accurate and concise information as possible."
 
-        st.write(f"Executing pandas_ai.run with the prompt: {full_prompt}")  # Debugging line
         result = pandas_ai.run(df, full_prompt)
-        st.write("Completed pandas_ai.run")  # Debugging line
         print(result)
         return result
     except Exception as e:
