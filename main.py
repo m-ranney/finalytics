@@ -12,7 +12,11 @@ openai_api_key = os.getenv("OPENAI_API_KEY")
 def chat_with_csv(df,prompt):
     llm = OpenAI(api_token=openai_api_key)
     pandas_ai = PandasAI(llm)
-    result = pandas_ai.run(df, prompt=prompt)
+    
+    # Construct the prompt with additional information
+    full_prompt = f"You are a personal banking assistant. You have been provided with a banking statement for a middle class family of four with the following columns: Store Name, Date of purchase/expense, Amount of purchase/expense, Category of purchase/expense (ie. mortagage, utility bill, restaurant, etc.), Remaining balance of the bank account. The owner of the bank account is asking: {prompt}, please provide them with as accurate and concise information as possible."
+
+    result = pandas_ai.run(df, prompt=full_prompt)
     print(result)
     return result
 
