@@ -26,7 +26,7 @@ def chat_with_csv(df,prompt):
 
 st.set_page_config(layout='wide')
 
-st.title("ChatCSV powered by LLM")
+st.title("Budget Buddy")
 
 input_csv = st.file_uploader("Upload your CSV file", type=['csv'])
 
